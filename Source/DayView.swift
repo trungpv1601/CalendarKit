@@ -57,6 +57,13 @@ public class DayView: UIView {
       timelinePagerView.state = state
     }
   }
+  
+  public var calendar: Calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      dayHeaderView.calendar = calendar
+      timelinePagerView.calendar = calendar
+    }
+  }
 
   var style = CalendarStyle()
 

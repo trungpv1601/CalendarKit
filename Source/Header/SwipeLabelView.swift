@@ -6,6 +6,12 @@ class SwipeLabelView: UIView {
     case Forward
     case Backward
   }
+  
+  var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      updateLabelText()
+    }
+  }
 
   weak var state: DayViewState? {
     willSet(newValue) {
@@ -13,8 +19,12 @@ class SwipeLabelView: UIView {
     }
     didSet {
       state?.subscribe(client: self)
-      labels.first!.text = state?.selectedDate.format(with: .full)
+      updateLabelText()
     }
+  }
+  
+  private func updateLabelText() {
+    labels.first!.text = state?.selectedDate.format(with: .full, timeZone: calendar.timeZone)
   }
 
   var firstLabel: UILabel {

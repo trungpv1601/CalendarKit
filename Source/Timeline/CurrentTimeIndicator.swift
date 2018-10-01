@@ -5,6 +5,12 @@ class CurrentTimeIndicator: UIView {
     
   let padding : CGFloat = 5
   var leftInset: CGFloat = 53
+  
+  public var calendar: Calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      updateDate()
+    }
+  }
 
   /// Determines if times should be displayed in a 24 hour format. Defaults to the current locale's setting
   var is24hClock : Bool = true {
@@ -58,7 +64,7 @@ class CurrentTimeIndicator: UIView {
     
   func updateDate() {
     let dateFormat = is24hClock ? "HH:mm" : "h:mm a"
-    let timezone = TimeZone.ReferenceType.default
+    let timezone = calendar.timeZone
     timeLabel.text = date.format(with: dateFormat, timeZone: timezone)
     timeLabel.sizeToFit()
     setNeedsLayout()

@@ -14,6 +14,17 @@ public class TimelinePagerView: UIView {
 
   public weak var dataSource: EventDataSource?
   public weak var delegate: TimelinePagerViewDelegate?
+  
+  public var calendar: Calendar {
+    get {
+      return timelinePager.reusableViews.first!.timeline.calendar
+    }
+    set {
+      timelinePager.reusableViews.forEach { (container) in
+        container.timeline.calendar = newValue
+      }
+    }
+  }
 
   public var timelineScrollOffset: CGPoint {
     // Any view is fine as they are all synchronized

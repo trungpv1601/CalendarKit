@@ -5,7 +5,19 @@ public class DayHeaderView: UIView {
 
   public var daysInWeek = 7
 
-  public var calendar = Calendar.autoupdatingCurrent
+  public var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      daySymbolsView.calendar = calendar
+      setCalendarToDaySelectors(calendar)
+      swipeLabelView.calendar = calendar
+    }
+  }
+  
+  private func setCalendarToDaySelectors(_ newCalendar: Calendar) {
+    pagingScrollView.reusableViews.forEach { (selector) in
+      selector.calendar = newCalendar
+    }
+  }
 
   var style = DayHeaderStyle()
 

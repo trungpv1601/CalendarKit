@@ -16,7 +16,7 @@ class DaySelector: UIView, ReusableView {
 
   weak var delegate: DaySelectorDelegate?
 
-  var calendar = Calendar.autoupdatingCurrent
+  public var calendar = Calendar.autoupdatingCurrent
 
   var style = DaySelectorStyle()
 

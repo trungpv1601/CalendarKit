@@ -102,7 +102,8 @@ extension SwipeLabelView: DayViewStateUpdating {
   func move(from oldDate: Date, to newDate: Date) {
     guard newDate != oldDate
       else { return }
-    labels.last!.text = newDate.format(with: .full)
+    let timezone = calendar.timeZone
+    labels.last!.text = newDate.format(with: .full, timeZone: timezone)
     let direction: AnimationDirection = newDate.isLater(than: oldDate) ? .Forward : .Backward
     animate(direction)
   }

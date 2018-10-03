@@ -5,7 +5,7 @@ open class DayViewController: UIViewController, EventDataSource, DayViewDelegate
 
   public lazy var dayView: DayView = DayView()
 
-  public lazy var calendar = Calendar.autoupdatingCurrent {
+  public var calendar = Calendar.autoupdatingCurrent {
     didSet {
       dayView.calendar = calendar
     }

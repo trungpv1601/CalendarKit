@@ -5,6 +5,7 @@ import DateToolsSwift
 public protocol DaySelectorItemProtocol: class {
   var date: Date {get set}
   var selected: Bool {get set}
+  var calendar: Calendar {get set}
   func updateStyle(_ newStyle: DaySelectorStyle)
 }
 
@@ -16,7 +17,17 @@ class DaySelector: UIView, ReusableView {
 
   weak var delegate: DaySelectorDelegate?
 
-  public var calendar = Calendar.autoupdatingCurrent
+  public var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      updateItemsCalendar()
+    }
+  }
+
+  private func updateItemsCalendar() {
+    items.forEach { (item) in
+      item.calendar = calendar
+    }
+  }
 
   var style = DaySelectorStyle()
 
@@ -90,6 +101,7 @@ class DaySelector: UIView, ReusableView {
       label.addGestureRecognizer(recognizer)
     }
     configure()
+    updateItemsCalendar()
 
     // Restore last date
     selectedDate = lastSelectedDate

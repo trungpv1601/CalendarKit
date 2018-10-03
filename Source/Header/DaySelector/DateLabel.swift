@@ -2,12 +2,21 @@ import UIKit
 import DateToolsSwift
 
 class DateLabel: UILabel, DaySelectorItemProtocol {
+  var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      updateState()
+    }
+  }
   
   var date = Date() {
     didSet {
       text = String(date.day)
       updateState()
     }
+  }
+
+  var isToday: Bool {
+    return calendar.isDateInToday(date)
   }
 
   var selected: Bool = false {
@@ -44,7 +53,7 @@ class DateLabel: UILabel, DaySelectorItemProtocol {
   }
 
   func updateState() {
-    let today = date.isToday
+    let today = isToday
     if selected {
       font = style.todayFont
       textColor = style.activeTextColor

@@ -16,6 +16,13 @@ class DayDateCell: UIView, DaySelectorItemProtocol {
     }
   }
 
+  var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      dateLabel.calendar = calendar
+      updateState()
+    }
+  }
+
   var selected: Bool {
     get {
       return dateLabel.selected
@@ -61,7 +68,6 @@ class DayDateCell: UIView, DaySelectorItemProtocol {
   }
 
   func updateDayLabel() {
-    let calendar = Calendar.autoupdatingCurrent
     let daySymbols = calendar.shortWeekdaySymbols
     let weekendMask = [true] + [Bool](repeating: false, count: 5) + [true]
     var weekDays = Array(zip(daySymbols, weekendMask))

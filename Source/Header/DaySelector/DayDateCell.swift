@@ -60,8 +60,9 @@ class DayDateCell: UIView, DaySelectorItemProtocol {
   }
 
   func updateState() {
+    let isWeekend = isAWeekend(date: date)
     dayLabel.font = UIFont.systemFont(ofSize: regularSizeClassFontSize)
-    dayLabel.textColor = date.isWeekend ? style.weekendTextColor : style.inactiveTextColor
+    dayLabel.textColor = isWeekend ? style.weekendTextColor : style.inactiveTextColor
     dateLabel.updateState()
     updateDayLabel()
     setNeedsLayout()
@@ -72,7 +73,20 @@ class DayDateCell: UIView, DaySelectorItemProtocol {
     let weekendMask = [true] + [Bool](repeating: false, count: 5) + [true]
     var weekDays = Array(zip(daySymbols, weekendMask))
     weekDays.shift(calendar.firstWeekday - 1)
-    dayLabel.text = daySymbols[date.weekday - 1]
+    let weekDay = component(component: .weekday, from: date)
+    dayLabel.text = daySymbols[weekDay - 1]
+  }
+
+  private func component(component: Calendar.Component, from date: Date) -> Int {
+    return calendar.component(component, from: date)
+  }
+
+  private func isAWeekend(date: Date) -> Bool {
+    let weekday = component(component: .weekday, from: date)
+    if weekday == 7 || weekday == 1 {
+      return true
+    }
+    return false
   }
 
   override func layoutSubviews() {

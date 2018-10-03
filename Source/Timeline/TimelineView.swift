@@ -370,10 +370,12 @@ public class TimelineView: UIView, ReusableView {
   }
   
   fileprivate func dateToY(_ date: Date) -> CGFloat {
-    if date.dateOnly() > self.date.dateOnly() {
+    let provisionedDate = date.dateOnly()
+    let timelineDate = self.date.dateOnly()
+    if provisionedDate > timelineDate {
       // Event ending the next day
       return 24 * style.verticalDiff + style.verticalInset
-    } else if date.dateOnly() < self.date.dateOnly() {
+    } else if provisionedDate < timelineDate {
       // Event starting the previous day
       return style.verticalInset
     } else {

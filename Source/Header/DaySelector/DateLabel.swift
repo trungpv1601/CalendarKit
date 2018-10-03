@@ -15,7 +15,7 @@ class DateLabel: UILabel, DaySelectorItemProtocol {
     }
   }
 
-  var isToday: Bool {
+  private var isToday: Bool {
     return calendar.isDateInToday(date)
   }
 

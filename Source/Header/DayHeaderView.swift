@@ -76,10 +76,16 @@ public class DayHeaderView: UIView {
   }
   
   func beginningOfWeek(_ date: Date) -> Date {
+    let weekOfYear = component(component: .weekOfYear, from: date)
+    let yearForWeekOfYear = component(component: .yearForWeekOfYear, from: date)
     return calendar.date(from: DateComponents(calendar: calendar,
                                               weekday: calendar.firstWeekday,
-                                              weekOfYear: date.weekOfYear,
-                                              yearForWeekOfYear: date.yearForWeekOfYear))!
+                                              weekOfYear: weekOfYear,
+                                              yearForWeekOfYear: yearForWeekOfYear))!
+  }
+
+  private func component(component: Calendar.Component, from date: Date) -> Int {
+    return calendar.component(component, from: date)
   }
   
   public func updateStyle(_ newStyle: DayHeaderStyle) {

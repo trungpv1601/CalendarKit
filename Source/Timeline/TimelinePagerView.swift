@@ -23,6 +23,7 @@ public class TimelinePagerView: UIView {
       timelinePager.reusableViews.forEach { (container) in
         container.timeline.calendar = newValue
       }
+      reloadData()
     }
   }
 
@@ -122,7 +123,7 @@ public class TimelinePagerView: UIView {
 
   func updateTimeline(_ timeline: TimelineView) {
     guard let dataSource = dataSource else {return}
-    let date = timeline.date.dateOnly()
+    let date = timeline.date.dateOnly(calendar: calendar)
     let events = dataSource.eventsForDate(date)
     let day = TimePeriod(beginning: date,
                          chunk: TimeChunk.dateComponents(days: 1))
@@ -133,8 +134,8 @@ public class TimelinePagerView: UIView {
 
 extension TimelinePagerView: DayViewStateUpdating {
   public func move(from oldDate: Date, to newDate: Date) {
-    let oldDate = oldDate.dateOnly()
-    let newDate = newDate.dateOnly()
+    let oldDate = oldDate.dateOnly(calendar: calendar)
+    let newDate = newDate.dateOnly(calendar: calendar)
     if newDate.isEarlier(than: oldDate) {
       var timelineDate = newDate.subtract(TimeChunk.dateComponents(days: 0))
       for timelineContainer in timelinePager.reusableViews {

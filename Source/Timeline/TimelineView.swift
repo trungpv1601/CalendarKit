@@ -107,6 +107,7 @@ public class TimelineView: UIView, ReusableView {
   public var calendar: Calendar = Calendar.autoupdatingCurrent {
     didSet {
       nowLine.calendar = calendar
+      setNeedsLayout()
     }
   }
   
@@ -370,8 +371,8 @@ public class TimelineView: UIView, ReusableView {
   }
   
   fileprivate func dateToY(_ date: Date) -> CGFloat {
-    let provisionedDate = date.dateOnly()
-    let timelineDate = self.date.dateOnly()
+    let provisionedDate = date.dateOnly(calendar: calendar)
+    let timelineDate = self.date.dateOnly(calendar: calendar)
     if provisionedDate > timelineDate {
       // Event ending the next day
       return 24 * style.verticalDiff + style.verticalInset

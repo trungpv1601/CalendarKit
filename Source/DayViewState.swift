@@ -6,22 +6,27 @@ public protocol DayViewStateUpdating: class {
 
 public class DayViewState {
 
+  public var calendar = Calendar.autoupdatingCurrent {
+    didSet {
+      notify(clients: clients, moveTo: selectedDate)
+    }
+  }
   public private(set) var selectedDate: Date
   private var clients = [DayViewStateUpdating]()
 
   public init(date: Date = Date()) {
-    let date = date.dateOnly()
+    let date = date.dateOnly(calendar: calendar)
     self.selectedDate = date
   }
 
   public func move(to date: Date) {
-    let date = date.dateOnly()
+    let date = date.dateOnly(calendar: calendar)
     notify(clients: clients, moveTo: date)
     selectedDate = date
   }
 
   public func client(client: DayViewStateUpdating, didMoveTo date: Date) {
-    let date = date.dateOnly()
+    let date = date.dateOnly(calendar: calendar)
     notify(clients: allClientsWithout(client: client),
            moveTo: date)
     selectedDate = date

@@ -121,9 +121,9 @@ extension DayHeaderView: DaySelectorDelegate {
 
 extension DayHeaderView: DayViewStateUpdating {
   public func move(from oldDate: Date, to newDate: Date) {
-    let newDate = newDate.dateOnly()
+    let newDate = newDate.dateOnly(calendar: calendar)
     let centerView = pagingScrollView.reusableViews[1]
-    let startDate = centerView.startDate.dateOnly()
+    let startDate = centerView.startDate.dateOnly(calendar: calendar)
 
     let daysFrom = newDate.days(from: startDate, calendar: calendar)
     let newStartDate = beginningOfWeek(newDate)

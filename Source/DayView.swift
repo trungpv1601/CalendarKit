@@ -62,6 +62,7 @@ public class DayView: UIView {
     didSet {
       dayHeaderView.calendar = calendar
       timelinePagerView.calendar = calendar
+      state?.calendar = calendar
     }
   }
 

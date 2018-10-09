@@ -3,11 +3,7 @@ import UIKit
 class DaySymbolsView: UIView {
 
   var daysInWeek = 7
-  var calendar = Calendar.autoupdatingCurrent {
-    didSet {
-      configure()
-    }
-  }
+  var calendar = Calendar.autoupdatingCurrent
   var labels = [UILabel]()
   var style: DaySymbolsStyle = DaySymbolsStyle()
 
@@ -21,9 +17,10 @@ class DaySymbolsView: UIView {
     initializeViews()
   }
 
-  init(daysInWeek: Int = 7) {
-    super.init(frame: CGRect.zero)
+  init(daysInWeek: Int = 7, calendar: Calendar = Calendar.autoupdatingCurrent) {
+    self.calendar = calendar
     self.daysInWeek = daysInWeek
+    super.init(frame: CGRect.zero)
     initializeViews()
   }
 

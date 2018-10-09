@@ -109,7 +109,7 @@ class DaySelector: UIView, ReusableView {
 
   func configure() {
     for (increment, label) in items.enumerated() {
-      label.date = startDate.add(TimeChunk.dateComponents(days: increment))
+      label.date = startDate.add(TimeChunk.dateComponents(days: increment), calendar: calendar)
     }
   }
 

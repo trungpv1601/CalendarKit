@@ -7,8 +7,7 @@ extension Date {
     let dayComponent = calendar.component(.day, from: self)
     let zone = calendar.timeZone
     
-    let newComponents = DateComponents(calendar: calendar,
-                                       timeZone: zone,
+    let newComponents = DateComponents(timeZone: zone,
                                        year: yearComponent,
                                        month: monthComponent,
                                        day: dayComponent)

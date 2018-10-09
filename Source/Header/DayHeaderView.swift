@@ -2,25 +2,9 @@ import UIKit
 import DateToolsSwift
 
 public class DayHeaderView: UIView {
-
   public var daysInWeek = 7
-
-  public var calendar = Calendar.autoupdatingCurrent {
-    didSet {
-      daySymbolsView.calendar = calendar
-      setCalendarToDaySelectors(calendar)
-      swipeLabelView.calendar = calendar
-    }
-  }
-  
-  private func setCalendarToDaySelectors(_ newCalendar: Calendar) {
-    pagingScrollView.reusableViews.forEach { (selector) in
-      selector.calendar = newCalendar
-    }
-  }
-
+  public let calendar: Calendar
   var style = DayHeaderStyle()
-
   weak var state: DayViewState? {
     willSet(newValue) {
       state?.unsubscribe(client: self)
@@ -37,22 +21,25 @@ public class DayHeaderView: UIView {
   var pagingScrollViewHeight: CGFloat = 40
   var swipeLabelViewHeight: CGFloat = 20
 
-  lazy var daySymbolsView: DaySymbolsView = DaySymbolsView(daysInWeek: self.daysInWeek)
+  let daySymbolsView: DaySymbolsView
   let pagingScrollView = PagingScrollView<DaySelector>()
-  lazy var swipeLabelView: SwipeLabelView = SwipeLabelView()
-
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  let swipeLabelView: SwipeLabelView
+  
+  init(calendar: Calendar) {
+    self.calendar = calendar
+    let symbols = DaySymbolsView(calendar: calendar)
+    let swipeLabel = SwipeLabelView(calendar: calendar)
+    self.swipeLabelView = swipeLabel
+    self.daySymbolsView = symbols
+    super.init(frame: .zero)
     configure()
     configurePages()
   }
-
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    configure()
-    configurePages()
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
-
+  
   func configure() {
     [daySymbolsView, pagingScrollView, swipeLabelView].forEach {
       addSubview($0)
@@ -64,6 +51,7 @@ public class DayHeaderView: UIView {
   func configurePages(_ selectedDate: Date = Date()) {
     for i in -1...1 {
       let daySelector = DaySelector(daysInWeek: daysInWeek)
+      daySelector.calendar = calendar
       let date = selectedDate.add(TimeChunk.dateComponents(weeks: i))
       daySelector.startDate = beginningOfWeek(date)
       pagingScrollView.reusableViews.append(daySelector)

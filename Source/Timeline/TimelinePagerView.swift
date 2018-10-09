@@ -15,17 +15,7 @@ public class TimelinePagerView: UIView {
   public weak var dataSource: EventDataSource?
   public weak var delegate: TimelinePagerViewDelegate?
   
-  public var calendar: Calendar {
-    get {
-      return timelinePager.reusableViews.first!.timeline.calendar
-    }
-    set {
-      timelinePager.reusableViews.forEach { (container) in
-        container.timeline.calendar = newValue
-      }
-      reloadData()
-    }
-  }
+  public var calendar: Calendar = Calendar.autoupdatingCurrent
 
   public var timelineScrollOffset: CGPoint {
     // Any view is fine as they are all synchronized
@@ -46,6 +36,12 @@ public class TimelinePagerView: UIView {
     didSet {
       state?.subscribe(client: self)
     }
+  }
+  
+  init(calendar: Calendar) {
+    self.calendar = calendar
+    super.init(frame: .zero)
+    configure()
   }
 
   override public init(frame: CGRect) {
@@ -88,10 +84,11 @@ public class TimelinePagerView: UIView {
     var verticalScrollViews = [TimelineContainer]()
     for i in -1...1 {
       let timeline = TimelineView(frame: bounds)
+      timeline.calendar = calendar
       timeline.delegate = self
       timeline.eventViewDelegate = self
       timeline.frame.size.height = timeline.fullHeight
-      timeline.date = Date().add(TimeChunk.dateComponents(days: i))
+      timeline.date = Date().add(TimeChunk.dateComponents(days: i), calendar: calendar)
 
       let verticalScrollView = TimelineContainer(timeline)
       verticalScrollView.addSubview(timeline)
@@ -137,18 +134,18 @@ extension TimelinePagerView: DayViewStateUpdating {
     let oldDate = oldDate.dateOnly(calendar: calendar)
     let newDate = newDate.dateOnly(calendar: calendar)
     if newDate.isEarlier(than: oldDate) {
-      var timelineDate = newDate.subtract(TimeChunk.dateComponents(days: 0))
+      var timelineDate = newDate.subtract(TimeChunk.dateComponents(days: 0), calendar: calendar)
       for timelineContainer in timelinePager.reusableViews {
         timelineContainer.timeline.date = timelineDate
-        timelineDate = timelineDate.add(TimeChunk.dateComponents(days: 1))
+        timelineDate = timelineDate.add(TimeChunk.dateComponents(days: 1), calendar: calendar)
         updateTimeline(timelineContainer.timeline)
       }
       timelinePager.scrollBackward()
     } else if newDate.isLater(than: oldDate) {
-      var timelineDate = newDate.add(TimeChunk.dateComponents(days: 0))
+      var timelineDate = newDate.add(TimeChunk.dateComponents(days: 0), calendar: calendar)
       for timelineContainer in timelinePager.reusableViews.reversed() {
         timelineContainer.timeline.date = timelineDate
-        timelineDate = timelineDate.subtract(TimeChunk.dateComponents(days: 1))
+        timelineDate = timelineDate.subtract(TimeChunk.dateComponents(days: 1), calendar: calendar)
         updateTimeline(timelineContainer.timeline)
       }
       timelinePager.scrollForward()
@@ -173,8 +170,8 @@ extension TimelinePagerView: PagingScrollViewDelegate {
     guard let state = state
       else{ return }
 
-    leftView.date = state.selectedDate.add(TimeChunk.dateComponents(days: -1))
-    rightView.date = state.selectedDate.add(TimeChunk.dateComponents(days: 1))
+    leftView.date = state.selectedDate.add(TimeChunk.dateComponents(days: -1), calendar: calendar)
+    rightView.date = state.selectedDate.add(TimeChunk.dateComponents(days: 1), calendar: calendar)
 
     [leftView, rightView].forEach{self.updateTimeline($0)}
   }

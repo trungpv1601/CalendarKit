@@ -6,16 +6,13 @@ public protocol DayViewStateUpdating: class {
 
 public class DayViewState {
 
-  public var calendar = Calendar.autoupdatingCurrent {
-    didSet {
-      notify(clients: clients, moveTo: selectedDate)
-    }
-  }
+  public var calendar = Calendar.autoupdatingCurrent
   public private(set) var selectedDate: Date
   private var clients = [DayViewStateUpdating]()
 
-  public init(date: Date = Date()) {
+  public init(date: Date = Date(), calendar: Calendar = Calendar.autoupdatingCurrent) {
     let date = date.dateOnly(calendar: calendar)
+    self.calendar = calendar
     self.selectedDate = date
   }
 

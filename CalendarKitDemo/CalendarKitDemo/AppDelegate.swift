@@ -11,7 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.backgroundColor = UIColor.white
     window?.makeKeyAndVisible()
 
-    let dayViewController = CustomCalendarExampleController()
+    let dayViewController = ExampleController()
     let navigationController = UINavigationController(rootViewController: dayViewController)
     window?.rootViewController = navigationController
 

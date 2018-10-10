@@ -76,7 +76,7 @@ class DaySelector: UIView, ReusableView {
     initializeViews(viewType: DateLabel.self)
   }
 
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     startDate = Date().dateOnly(calendar: calendar)
     super.init(coder: aDecoder)
     initializeViews(viewType: DateLabel.self)

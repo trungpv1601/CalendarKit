@@ -35,7 +35,7 @@ class PagingScrollView<T: UIView>: UIScrollView, UIScrollViewDelegate where T: R
     configure()
   }
 
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     configure()
   }

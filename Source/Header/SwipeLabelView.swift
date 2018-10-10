@@ -107,6 +107,7 @@ extension SwipeLabelView: DayViewStateUpdating {
     let timezone = calendar.timeZone
     let formatter = DateFormatter()
     formatter.dateStyle = .full
+    formatter.timeStyle = .none
     formatter.timeZone = timezone
     return formatter.string(from: date)
   }

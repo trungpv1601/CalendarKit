@@ -164,6 +164,10 @@ class ExampleController: DayViewController, DatePickerControllerDelegate {
     print("Event has been longPressed: \(descriptor) \(String(describing: descriptor.userInfo))")
   }
 
+  override func dayViewDidLongPressTimelineAtHour(_ hour: Int) {
+    print("Did LongPress Timeline at hour: \(hour)")
+  }
+
   override func dayView(dayView: DayView, willMoveTo date: Date) {
     print("DayView = \(dayView) will move to: \(date)")
   }

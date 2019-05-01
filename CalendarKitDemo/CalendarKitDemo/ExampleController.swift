@@ -165,7 +165,29 @@ class ExampleController: DayViewController, DatePickerControllerDelegate {
       return
     }
     print("Event has been longPressed: \(descriptor) \(String(describing: descriptor.userInfo))")
+    let topHandle = eventView.eventResizeHandles.first?.panGestureRecognizer
+    let bottomHandle = eventView.eventResizeHandles.last?.panGestureRecognizer
+
+    bottomHandle?.addTarget(self, action: #selector(bottomHandleMoved(sender:)))
   }
+
+  @objc func bottomHandleMoved(sender: UIPanGestureRecognizer) {
+    let handleView = (sender.view as! EventResizeHandleView)
+    let eventView = handleView.superview as! EventView
+
+    let newCoord = sender.translation(in: handleView)
+    if sender.state == .began {
+      oldBottomCoordinate = newCoord
+    }
+
+    let diff = CGPoint(x: newCoord.x - oldBottomCoordinate.x, y: newCoord.y - oldBottomCoordinate.y)
+    // we care only about the Y part
+
+    eventView.frame.size.height += diff.y
+    oldBottomCoordinate = newCoord
+  }
+
+  var oldBottomCoordinate: CGPoint = .zero
 
   override func dayViewDidLongPressTimelineAtHour(_ hour: Int) {
     print("Did LongPress Timeline at hour: \(hour)")

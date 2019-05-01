@@ -1,5 +1,6 @@
 import UIKit
 import CalendarKit
+import Neon
 import DateToolsSwift
 
 enum SelectedStyle {
@@ -8,6 +9,8 @@ enum SelectedStyle {
 }
 
 class ExampleController: DayViewController, DatePickerControllerDelegate {
+
+  var eventViewPrototypes = [EventView]()
 
   var data = [["Breakfast at Tiffany's",
                "New York, 5th avenue"],
@@ -166,6 +169,35 @@ class ExampleController: DayViewController, DatePickerControllerDelegate {
 
   override func dayViewDidLongPressTimelineAtHour(_ hour: Int) {
     print("Did LongPress Timeline at hour: \(hour)")
+    let container = dayView.timelinePagerView
+    let newView = EventView()
+    let descriptor = Event()
+    descriptor.text = "New event"
+    descriptor.color = .red
+    newView.updateWithDescriptor(event: descriptor)
+    let recognizer = UIPanGestureRecognizer()
+    recognizer.addTarget(self, action: #selector(prototypeEventDidMove(sender:)))
+    newView.addGestureRecognizer(recognizer)
+    container.addSubview(newView)
+    newView.frame = CGRect(origin: CGPoint(x: 15, y: 100), size: CGSize(width: dayView.width - 20, height: 40))
+  }
+
+  var oldCoordinate: CGPoint = .zero
+
+  @objc func prototypeEventDidMove(sender: UIPanGestureRecognizer) {
+    let container = sender.view!
+    let newCoord = sender.translation(in: container)
+    if sender.state == .began {
+      oldCoordinate = newCoord
+    }
+    if sender.state == .ended {
+      print("Show controller to create a new event")
+    }
+
+    let diff = CGPoint(x: newCoord.x - oldCoordinate.x, y: newCoord.y - oldCoordinate.y)
+    let attachedView = sender.view as! EventView
+    attachedView.frame = attachedView.frame.offsetBy(dx: diff.x, dy: diff.y)
+    oldCoordinate = newCoord
   }
 
   override func dayView(dayView: DayView, willMoveTo date: Date) {

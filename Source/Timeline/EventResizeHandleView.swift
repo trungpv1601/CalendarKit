@@ -2,13 +2,14 @@ import Foundation
 
 public class EventResizeHandleView: UIView {
   public lazy var panGestureRecognizer = UIPanGestureRecognizer()
+  public lazy var dotView = EventResizeHandleDotView()
+
   public var borderColor: UIColor? {
     get {
-      guard let cgColor = layer.borderColor else {return nil}
-      return UIColor(cgColor: cgColor)
+      return dotView.borderColor
     }
     set(value) {
-      layer.borderColor = value?.cgColor
+      dotView.borderColor = value
     }
   }
 
@@ -22,14 +23,18 @@ public class EventResizeHandleView: UIView {
   }
 
   private func configure() {
-    clipsToBounds = true
-    backgroundColor = .white
-    layer.borderWidth = 1
+    addSubview(dotView)
+    clipsToBounds = false
+    backgroundColor = .clear
     addGestureRecognizer(panGestureRecognizer)
   }
 
   public override func layoutSubviews() {
     super.layoutSubviews()
-    layer.cornerRadius = bounds.height / 2
+    let radius: CGFloat = 7
+    let centerD = (width - radius) / 2
+    let origin = CGPoint(x: centerD, y: centerD)
+    let dotSize = CGSize(width: radius, height: radius)
+    dotView.frame = CGRect(origin: origin, size: dotSize)
   }
 }

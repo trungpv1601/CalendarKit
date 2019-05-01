@@ -97,8 +97,8 @@ open class EventView: UIView {
     textView.fillSuperview()
     let first = eventResizeHandles.first
     let last = eventResizeHandles.last
-    let radius: CGFloat = 7
-    let yPad: CGFloat = -3
+    let radius: CGFloat = 40
+    let yPad: CGFloat =  -radius / 2
     first?.anchorInCorner(.topRight,
                           xPad: layoutMargins.right * 2,
                           yPad: yPad,

@@ -47,7 +47,7 @@ open class EventView: UIView {
     addSubview(textView)
   }
 
-  func updateWithDescriptor(event: EventDescriptor) {
+  public func updateWithDescriptor(event: EventDescriptor) {
     if let attributedText = event.attributedText {
       textView.attributedText = attributedText
     } else {

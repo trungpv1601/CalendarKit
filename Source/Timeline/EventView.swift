@@ -26,6 +26,8 @@ open class EventView: UIView {
     return view
   }()
 
+  public lazy var eventResizeHandles = [EventResizeHandleView(), EventResizeHandleView()]
+
   lazy var tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
   lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
 
@@ -40,11 +42,12 @@ open class EventView: UIView {
   }
 
   func configure() {
-    clipsToBounds = true
+    clipsToBounds = false
     [tapGestureRecognizer, longPressGestureRecognizer].forEach {addGestureRecognizer($0)}
 
     color = tintColor
     addSubview(textView)
+    eventResizeHandles.forEach{addSubview($0)}
   }
 
   public func updateWithDescriptor(event: EventDescriptor) {
@@ -58,6 +61,7 @@ open class EventView: UIView {
     descriptor = event
     backgroundColor = event.backgroundColor
     color = event.color
+    eventResizeHandles.forEach{$0.borderColor = event.color}
     setNeedsDisplay()
     setNeedsLayout()
   }
@@ -89,6 +93,21 @@ open class EventView: UIView {
 
   override open func layoutSubviews() {
     super.layoutSubviews()
+    clipsToBounds = false
     textView.fillSuperview()
+    let first = eventResizeHandles.first
+    let last = eventResizeHandles.last
+    let radius: CGFloat = 7
+    let yPad: CGFloat = -3
+    first?.anchorInCorner(.topRight,
+                          xPad: layoutMargins.right * 2,
+                          yPad: yPad,
+                          width: radius,
+                          height: radius)
+    last?.anchorInCorner(.bottomLeft,
+                         xPad: layoutMargins.left * 2,
+                         yPad: yPad,
+                         width: radius,
+                         height: radius)
   }
 }

@@ -170,7 +170,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CalendarKitDemo/Pods-CalendarKitDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-CalendarKitDemo/Pods-CalendarKitDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CalendarKit/CalendarKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
@@ -183,7 +183,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CalendarKitDemo/Pods-CalendarKitDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CalendarKitDemo/Pods-CalendarKitDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EB8E0B550100E82F95F955CA /* [CP] Check Pods Manifest.lock */ = {

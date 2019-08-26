@@ -43,7 +43,7 @@ open class DayViewController: UIViewController, DayViewDataSource, DayViewDelega
   }
 
   open func dayViewDidLongPressTimelineAtHour(_ hour: Int) {
-
+    print("hour = \(hour)")
   }
 
   open func dayView(dayView: DayView, willMoveTo date: Date) {

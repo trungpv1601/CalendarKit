@@ -12,6 +12,7 @@ public protocol EventDescriptor: class {
   var text: String {get}
   var color: UIColor {get}
   var textColor: UIColor {get}
+    var textFont: UIFont {get}
   var backgroundColor: UIColor {get}
   var frame: CGRect {get set}
 }
@@ -60,6 +61,7 @@ open class EventView: UIView {
     descriptor = event
     textView.text = event.text
     textView.textColor = event.textColor
+    textView.font = event.textFont
     backgroundColor = event.backgroundColor
     color = event.color
     setNeedsDisplay()

@@ -6,6 +6,7 @@ class TimelineContainer: UIScrollView, ReusableView {
 
   override func layoutSubviews() {
     timeline.frame = CGRect(x: 0, y: 0, width: frame.width, height: timeline.fullHeight)
+    contentSize.height = timeline.frame.height
   }
 
   func prepareForReuse() {
@@ -18,7 +19,7 @@ class TimelineContainer: UIScrollView, ReusableView {
   }
   
   func scrollTo(hour24: Float) {
-    let percentToScroll = CGFloat(hour24 / 24)
+    let percentToScroll = CGFloat(hour24 / Float(timeline.times.count))
     let yToScroll = contentSize.height * percentToScroll
     let padding: CGFloat = 8
     setContentOffset(CGPoint(x: contentOffset.x, y: yToScroll - padding), animated: true)

@@ -43,7 +43,7 @@ class DaySelector: UIView, ReusableView {
     }
   }
 
-  var dateLabelWidth: CGFloat = 35
+  var dateLabelWidth: CGFloat = 28
 
   var dateLabels = [DateLabel]()
 

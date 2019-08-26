@@ -140,7 +140,9 @@ public class DayView: UIView {
   }
 
   public func reloadData() {
-    timelinePager.reusableViews.forEach{self.updateTimeline($0.timeline)}
+    timelinePager.reusableViews.forEach{
+        self.updateTimeline($0.timeline)
+    }
   }
 
   override public func layoutSubviews() {
@@ -158,7 +160,12 @@ public class DayView: UIView {
   func updateTimeline(_ timeline: TimelineView) {
     guard let dataSource = dataSource else {return}
     let events = dataSource.eventsForDate(timeline.date)
+    if(events.count > 0){
+        timeline.minTime = events[0].datePeriod.beginning
+        timeline.maxTime = events[events.count - 1].datePeriod.beginning
+    }
     timeline.eventDescriptors = events
+    
   }
 }
 

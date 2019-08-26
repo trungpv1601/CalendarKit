@@ -3,7 +3,7 @@ import DateToolsSwift
 
 class DateLabel: UILabel {
 
-  var fontSize: CGFloat = 18
+  var fontSize: CGFloat = 16
 
   var date: Date! {
     didSet {
@@ -64,7 +64,7 @@ class DateLabel: UILabel {
   }
 
   override func layoutSubviews() {
-    layer.cornerRadius = bounds.height / 2
+    layer.cornerRadius = 2 //bounds.height / 2
   }
   override func tintColorDidChange() {
     updateState()
